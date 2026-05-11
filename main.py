@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routes.youtube import router
+from app.routes.youtube_routes import router
 
 app = FastAPI()
 
