@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        YouTube Video Summarizer
+    </title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <header class="hero">
+
+            <h1>
+
+                YouTube Video Comments Analyzer
+
+            </h1>
+
+            <p>
+
+                Analyze comments, detect spam,
+                and understand video sentiment
+
+            </p>
+
+        </header>
+        <section class="input-section">
+
+            <label for="videoUrl">
+
+                Enter YouTube Video Link
+
+            </label>
+
+            <div class="input-box">
+
+                <input type="text" id="videoUrl" placeholder="Paste YouTube video URL">
+
+                <button id="analyzeBtn">
+
+                    ANALYZE
+
+                </button>
+
+            </div>
+
+        </section>
+        <section id="loadingSection">
+
+            <p>
+                Analyzing comments...
+            </p>
+
+        </section>
+        <section class="video-info">
+
+            <h2>
+
+                Video Information
+
+            </h2>
+
+            <div class="stats-container">
+
+                <div class="card">
+
+                    <h1 id="totalComments">
+                        0
+                    </h1>
+
+                    <p>
+                        Total Comments
+                    </p>
+
+                </div>
+
+                <div class="card">
+
+                    <h1 id="validComments">
+                        0
+                    </h1>
+
+                    <p>
+                        Valid Comments
+                    </p>
+
+                </div>
+
+                <div class="card">
+
+                    <h1 id="spamComments">
+                        0
+                    </h1>
+
+                    <p>
+                        Spam Detected
+                    </p>
+
+                </div>
+
+                <div class="card">
+
+                    <h1 id="validityRate">
+                        0%
+                    </h1>
+
+                    <p>
+                        Validity Rate
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+        <section class="analysis-section">
+            <div class="analysis-card">
+
+                <h2>
+
+                    Sentiment Analysis
+
+                </h2>
+
+                <canvas id="sentimentChart"></canvas>
+
+                <div class="sentiment-stats">
+
+                    <div>
+
+                        Good Comments :
+                        <span id="goodComments">
+                            0
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        Neutral Comments :
+                        <span id="neutralComments">
+                            0
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        Bad Comments :
+                        <span id="badComments">
+                            0
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="analysis-card">
+
+                <h2>
+
+                    Spam Detection
+
+                </h2>
+
+                <canvas id="spamChart"></canvas>
+
+                <div class="spam-stats">
+
+                    <div>
+
+                        Valid Comments :
+                        <span id="validPercent">
+                            0%
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        Spam Comments :
+                        <span id="spamPercent">
+                            0%
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+        <section class="trends-section">
+            <div class="trend-card">
+
+                <h2>
+
+                    Performance Trends
+
+                </h2>
+
+                <canvas id="trendChart"></canvas>
+
+            </div>
+            <div class="trend-card">
+
+                <h2>
+
+                    Year-over-Year Performance
+
+                </h2>
+
+                <canvas id="yearChart"></canvas>
+
+            </div>
+        </section>
+        <section class="summary-section">
+
+            <h2>
+
+                Overall Summary
+
+            </h2>
+
+            <div id="summaryBox">
+
+                AI-generated summary will appear here.
+
+            </div>
+            <div class="summary-tags">
+
+                <span>
+                    Positive Reception
+                </span>
+
+                <span>
+                    Declining Views
+                </span>
+
+                <span>
+                    High Validity
+                </span>
+
+            </div>
+        </section>
+        <footer>
+
+            <p>
+
+                YouTube Video Summarizer © 2026
+
+            </p>
+
+        </footer>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
