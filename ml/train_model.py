@@ -4,16 +4,26 @@ import os
 
 from sklearn.model_selection import train_test_split
 
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import (
+    TfidfVectorizer
+)
 
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import (
+    LogisticRegression
+)
 
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import classification_report
+from sklearn.metrics import (
+    accuracy_score,
+    classification_report
+)
 
-from app.preprocessing.preprocess import clean_comment
+from app.preprocessing.preprocess import (
+    clean_comment
+)
 
-df = pd.read_csv("data/raw/spam.csv")
+df = pd.read_csv(
+    "data/raw/spam.csv"
+)
 
 print("\nDataset Loaded Successfully\n")
 
@@ -23,7 +33,9 @@ print("\nColumns:\n")
 
 print(df.columns)
 
-df["cleaned"] = df["CONTENT"].apply(clean_comment)
+df["cleaned"] = df["CONTENT"].apply(
+    clean_comment
+)
 
 print("\nText Cleaning Done\n")
 
@@ -31,11 +43,13 @@ X = df["cleaned"]
 
 y = df["CLASS"]
 
-X_train, X_test, y_train, y_test = train_test_split(
-    X,
-    y,
-    test_size=0.2,
-    random_state=42
+X_train, X_test, y_train, y_test = (
+    train_test_split(
+        X,
+        y,
+        test_size=0.2,
+        random_state=42
+    )
 )
 
 print("\nTrain Test Split Done\n")
@@ -45,9 +59,13 @@ vectorizer = TfidfVectorizer(
     ngram_range=(1, 2)
 )
 
-X_train_tfidf = vectorizer.fit_transform(X_train)
+X_train_tfidf = vectorizer.fit_transform(
+    X_train
+)
 
-X_test_tfidf = vectorizer.transform(X_test)
+X_test_tfidf = vectorizer.transform(
+    X_test
+)
 
 print("\nTF-IDF Vectorization Done\n")
 
@@ -63,7 +81,9 @@ model.fit(
 
 print("\nModel Training Complete\n")
 
-predictions = model.predict(X_test_tfidf)
+predictions = model.predict(
+    X_test_tfidf
+)
 
 accuracy = accuracy_score(
     y_test,
@@ -83,16 +103,19 @@ print(
     )
 )
 
-os.makedirs("models", exist_ok=True)
+os.makedirs(
+    "app/models",
+    exist_ok=True
+)
 
 joblib.dump(
     model,
-    "models/spam_model.pkl"
+    "app/models/spam_model.pkl"
 )
 
 joblib.dump(
     vectorizer,
-    "models/tfidf_vectorizer.pkl"
+    "app/models/tfidf_vectorizer.pkl"
 )
 
 print("\nModel Saved Successfully\n")
