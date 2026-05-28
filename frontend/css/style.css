@@ -1,3 +1,4 @@
+
 *{
     margin: 0;
     padding: 0;
@@ -6,11 +7,14 @@
 
 body{
     font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(
+
+    background:
+    linear-gradient(
         135deg,
-        #0f0c29,
-        #302b63,
-        #24243e
+        #000000,
+        #120000,
+        #1a0000,
+        #000000
     );
 
     color: white;
@@ -39,16 +43,26 @@ body{
     margin-bottom: 15px;
 
     font-weight: bold;
+
+    color: #ffffff;
+
+    text-shadow:
+    0 0 15px rgba(255,0,0,0.35);
 }
 
 .hero p{
     font-size: 24px;
 
-    color: #cfcfcf;
+    color: #bdbdbd;
 }
 
 .input-section{
-    background: rgba(255,255,255,0.08);
+    background:
+    linear-gradient(
+        135deg,
+        rgba(20,0,0,0.95),
+        rgba(40,0,0,0.88)
+    );
 
     padding: 30px;
 
@@ -56,7 +70,10 @@ body{
 
     margin-bottom: 40px;
 
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,0,0,0.2);
+
+    box-shadow:
+    0 0 30px rgba(255,0,0,0.08);
 }
 
 .input-section label{
@@ -67,6 +84,8 @@ body{
     font-size: 20px;
 
     font-weight: bold;
+
+    color: #ffffff;
 }
 
 .input-box{
@@ -82,15 +101,28 @@ body{
 
     border-radius: 12px;
 
-    border: none;
+    border: 1px solid rgba(255,0,0,0.15);
 
     outline: none;
 
     font-size: 18px;
 
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.05);
 
     color: white;
+
+    transition: 0.3s;
+}
+
+.input-box input:focus{
+    border: 1px solid #ff1f1f;
+
+    box-shadow:
+    0 0 15px rgba(255,0,0,0.25);
+}
+
+.input-box input::placeholder{
+    color: #a7a7a7;
 }
 
 .input-box button{
@@ -100,10 +132,11 @@ body{
 
     border-radius: 12px;
 
-    background: linear-gradient(
+    background:
+    linear-gradient(
         135deg,
-        #6a5af9,
-        #9d4edd
+        #ff0000,
+        #8b0000
     );
 
     color: white;
@@ -115,16 +148,25 @@ body{
     cursor: pointer;
 
     transition: 0.3s;
+
+    box-shadow:
+    0 0 20px rgba(255,0,0,0.3);
 }
 
 .input-box button:hover{
     transform: scale(1.05);
 
-    opacity: 0.9;
+    box-shadow:
+    0 0 30px rgba(255,0,0,0.5);
 }
 
 .video-info{
-    background: rgba(255,255,255,0.08);
+    background:
+    linear-gradient(
+        135deg,
+        rgba(18,18,18,0.95),
+        rgba(40,0,0,0.85)
+    );
 
     padding: 30px;
 
@@ -132,7 +174,10 @@ body{
 
     margin-bottom: 40px;
 
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,0,0,0.15);
+
+    box-shadow:
+    0 0 25px rgba(255,0,0,0.08);
 }
 
 .video-info h2{
@@ -160,47 +205,53 @@ body{
     color: white;
 
     transition: 0.3s;
+
+    border: 1px solid rgba(255,255,255,0.08);
 }
 
 .card:nth-child(1){
-    background: linear-gradient(
+    background:
+    linear-gradient(
         135deg,
-        #667eea,
-        #764ba2
+        #1f1f1f,
+        #550000
     );
 }
 
 .card:nth-child(2){
-    background: linear-gradient(
+    background:
+    linear-gradient(
         135deg,
-        #11998e,
-        #38ef7d
+        #111111,
+        #aa0000
     );
 }
 
 .card:nth-child(3){
-    background: linear-gradient(
+    background:
+    linear-gradient(
         135deg,
-        #ff416c,
-        #ff4b2b
+        #ff0000,
+        #540000
     );
 }
 
 .card:nth-child(4){
-    background: linear-gradient(
+    background:
+    linear-gradient(
         135deg,
-        #ee9ca7,
-        #ffdde1
+        #2c0000,
+        #ff4d4d
     );
 
-    color: black;
+    color: white;
 }
 
 .card:hover{
     transform: translateY(-10px);
 
-    box-shadow: 0 10px 25px
-    rgba(0,0,0,0.4);
+    box-shadow:
+    0 10px 30px rgba(255,0,0,0.35);
 }
 
 .card h1{
@@ -226,13 +277,21 @@ body{
 }
 
 .analysis-card{
-    background: rgba(255,255,255,0.08);
+    background:
+    linear-gradient(
+        135deg,
+        rgba(20,20,20,0.95),
+        rgba(45,0,0,0.82)
+    );
 
     padding: 30px;
 
     border-radius: 20px;
 
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,0,0,0.15);
+
+    box-shadow:
+    0 0 25px rgba(255,0,0,0.08);
 }
 
 .analysis-card h2{
@@ -260,13 +319,15 @@ canvas{
 
 .sentiment-stats div,
 .spam-stats div{
-    background: rgba(255,255,255,0.05);
+    background: rgba(255,255,255,0.04);
 
     padding: 20px;
 
     border-radius: 12px;
 
     font-size: 20px;
+
+    border: 1px solid rgba(255,0,0,0.08);
 }
 
 .trends-section{
@@ -280,13 +341,21 @@ canvas{
 }
 
 .trend-card{
-    background: rgba(255,255,255,0.08);
+    background:
+    linear-gradient(
+        135deg,
+        rgba(15,15,15,0.95),
+        rgba(40,0,0,0.85)
+    );
 
     padding: 30px;
 
     border-radius: 20px;
 
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,0,0,0.15);
+
+    box-shadow:
+    0 0 25px rgba(255,0,0,0.08);
 }
 
 .trend-card h2{
@@ -296,15 +365,23 @@ canvas{
 }
 
 .summary-section{
-    background: rgba(255,255,255,0.08);
+    background:
+    linear-gradient(
+        135deg,
+        rgba(15,15,15,0.96),
+        rgba(45,0,0,0.85)
+    );
 
     padding: 40px;
 
     border-radius: 20px;
 
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,0,0,0.15);
 
     margin-bottom: 40px;
+
+    box-shadow:
+    0 0 30px rgba(255,0,0,0.08);
 }
 
 .summary-section h2{
@@ -314,7 +391,7 @@ canvas{
 }
 
 #summaryBox{
-    background: rgba(255,255,255,0.05);
+    background: rgba(255,255,255,0.04);
 
     padding: 30px;
 
@@ -325,6 +402,8 @@ canvas{
     font-size: 22px;
 
     margin-bottom: 30px;
+
+    border: 1px solid rgba(255,0,0,0.08);
 }
 
 .summary-tags{
@@ -342,7 +421,17 @@ canvas{
 
     font-weight: bold;
 
-    background: #4caf50;
+    background:
+    linear-gradient(
+        135deg,
+        #ff0000,
+        #7a0000
+    );
+
+    color: white;
+
+    box-shadow:
+    0 0 15px rgba(255,0,0,0.25);
 }
 
 footer{
@@ -350,7 +439,7 @@ footer{
 
     padding: 30px;
 
-    color: #cfcfcf;
+    color: #9c9c9c;
 }
 
 @media(max-width: 900px){

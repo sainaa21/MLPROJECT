@@ -3,10 +3,13 @@ import pandas as pd
 import joblib
 
 from app.services.extract_video_id import extract_video_id
+
 from app.services.youtube_api import (
     fetch_comments,
     get_video_details
 )
+
+from ml.sentiment import analyze_sentiment
 
 router = APIRouter()
 
@@ -17,6 +20,11 @@ model = joblib.load(
 vectorizer = joblib.load(
     "app/models/tfidf_vectorizer.pkl"
 )
+
+
+# =========================================
+# FETCH COMMENTS ROUTE
+# =========================================
 
 @router.get("/fetch-comments")
 def fetch_youtube_comments(url: str):
@@ -45,7 +53,7 @@ def fetch_youtube_comments(url: str):
         return {
 
             "message":
-            "Comments fetched and saved successfully",
+            "Comments fetched successfully",
 
             "video_details":
             video_details,
@@ -62,6 +70,11 @@ def fetch_youtube_comments(url: str):
         return {
             "error": str(e)
         }
+
+
+# =========================================
+# ANALYZE ROUTE
+# =========================================
 
 @router.post("/analyze")
 def analyze(data: dict):
@@ -80,6 +93,17 @@ def analyze(data: dict):
 
         comments = fetch_comments(video_id)
 
+        if len(comments) == 0:
+
+            return {
+                "error": "No comments found"
+            }
+
+
+        # =========================================
+        # COMMENT TEXT EXTRACTION
+        # =========================================
+
         comment_texts = []
 
         for comment in comments:
@@ -90,37 +114,122 @@ def analyze(data: dict):
                     comment["comment"]
                 )
 
+
+        # =========================================
+        # SPAM PREDICTION
+        # =========================================
+
         X = vectorizer.transform(
             comment_texts
         )
 
         predictions = model.predict(X)
 
+        df = pd.DataFrame({
+
+            "comment": comment_texts,
+
+            "prediction": predictions
+        })
+
+
+        # =========================================
+        # COUNTS
+        # =========================================
+
         spam_count = int(
             sum(predictions)
         )
 
-        valid_count = int(
+        genuine_count = int(
             len(predictions) - spam_count
         )
 
         total_comments = len(predictions)
 
         validity_rate = round(
-            (valid_count / total_comments) * 100,
+
+            (genuine_count / total_comments) * 100,
+
             2
         )
 
         spam_rate = round(
+
             (spam_count / total_comments) * 100,
+
             2
         )
 
-        good_comments = 0
 
-        neutral_comments = 0
+        # =========================================
+        # IMPORTANT CHANGE
+        # =========================================
+        # USING ALL COMMENTS FOR SENTIMENT
+        # =========================================
 
-        bad_comments = 0
+        sentiment_df = df.copy()
+
+        sentiment_df["sentiment"] = sentiment_df[
+            "comment"
+        ].apply(analyze_sentiment)
+
+
+        # =========================================
+        # SENTIMENT COUNTS
+        # =========================================
+
+        positive_count = len(
+
+            sentiment_df[
+                sentiment_df["sentiment"] == "Positive"
+            ]
+        )
+
+        negative_count = len(
+
+            sentiment_df[
+                sentiment_df["sentiment"] == "Negative"
+            ]
+        )
+
+        neutral_count = len(
+
+            sentiment_df[
+                sentiment_df["sentiment"] == "Neutral"
+            ]
+        )
+
+
+        # =========================================
+        # SUMMARY
+        # =========================================
+
+        summary = f"""
+
+        Total comments analyzed:
+        {total_comments}
+
+        Genuine comments:
+        {genuine_count}
+
+        Spam comments:
+        {spam_count}
+
+        Positive audience reaction:
+        {positive_count}
+
+        Negative audience reaction:
+        {negative_count}
+
+        Neutral audience reaction:
+        {neutral_count}
+        """
+
+
+        # =========================================
+        # RESPONSE
+        # =========================================
 
         return {
 
@@ -128,7 +237,7 @@ def analyze(data: dict):
             total_comments,
 
             "valid_comments":
-            valid_count,
+            genuine_count,
 
             "spam_comments":
             spam_count,
@@ -136,20 +245,25 @@ def analyze(data: dict):
             "validity_rate":
             validity_rate,
 
-            "good_comments":
-            good_comments,
-
-            "neutral_comments":
-            neutral_comments,
-
-            "bad_comments":
-            bad_comments,
-
             "spam_rate":
             spam_rate,
 
+            "good_comments":
+            positive_count,
+
+            "bad_comments":
+            negative_count,
+
+            "neutral_comments":
+            neutral_count,
+
             "summary":
-            "Real ML spam analysis completed successfully."
+            summary,
+
+            "comments":
+            sentiment_df.to_dict(
+                orient="records"
+            )
         }
 
     except Exception as e:
@@ -157,6 +271,11 @@ def analyze(data: dict):
         return {
             "error": str(e)
         }
+
+
+# =========================================
+# TEST ROUTE
+# =========================================
 
 @router.get("/test")
 def test_route():

@@ -5,20 +5,28 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>
-        YouTube Video Summarizer
+        YouTube Video Analyzer
     </title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
 <body>
+
     <div class="container">
+
         <header class="hero">
 
             <h1>
@@ -35,6 +43,7 @@
             </p>
 
         </header>
+
         <section class="input-section">
 
             <label for="videoUrl">
@@ -45,7 +54,11 @@
 
             <div class="input-box">
 
-                <input type="text" id="videoUrl" placeholder="Paste YouTube video URL">
+                <input
+                    type="text"
+                    id="videoUrl"
+                    placeholder="Paste YouTube video URL"
+                >
 
                 <button id="analyzeBtn">
 
@@ -56,13 +69,17 @@
             </div>
 
         </section>
+
         <section id="loadingSection">
 
             <p>
+
                 Analyzing comments...
+
             </p>
 
         </section>
+
         <section class="video-info">
 
             <h2>
@@ -124,7 +141,9 @@
             </div>
 
         </section>
+
         <section class="analysis-section">
+
             <div class="analysis-card">
 
                 <h2>
@@ -139,7 +158,7 @@
 
                     <div>
 
-                        Good Comments :
+                        Positive Comments :
                         <span id="goodComments">
                             0
                         </span>
@@ -157,7 +176,7 @@
 
                     <div>
 
-                        Bad Comments :
+                        Negative Comments :
                         <span id="badComments">
                             0
                         </span>
@@ -167,6 +186,7 @@
                 </div>
 
             </div>
+
             <div class="analysis-card">
 
                 <h2>
@@ -200,31 +220,44 @@
                 </div>
 
             </div>
+
         </section>
-        <section class="trends-section">
-            <div class="trend-card">
 
-                <h2>
 
-                    Performance Trends
+        <!-- TREND SECTION -->
 
-                </h2>
+       <section class="trends-section">
 
-                <canvas id="trendChart"></canvas>
+    <div class="trend-card">
 
-            </div>
-            <div class="trend-card">
+        <h2>
 
-                <h2>
+            Current Performance Trend
 
-                    Year-over-Year Performance
+        </h2>
 
-                </h2>
+        <canvas id="trendChart"></canvas>
 
-                <canvas id="yearChart"></canvas>
+    </div>
 
-            </div>
-        </section>
+    <div class="trend-card">
+
+        <h2>
+
+            Last Year Comparison
+
+        </h2>
+
+        <canvas id="yearChart"></canvas>
+
+    </div>
+
+</section>
+        
+
+
+        <!-- SUMMARY SECTION -->
+
         <section class="summary-section">
 
             <h2>
@@ -235,36 +268,27 @@
 
             <div id="summaryBox">
 
-                AI-generated summary will appear here.
+                AI generated summary
+                will appear here.
 
             </div>
-            <div class="summary-tags">
 
-                <span>
-                    Positive Reception
-                </span>
-
-                <span>
-                    Declining Views
-                </span>
-
-                <span>
-                    High Validity
-                </span>
-
-            </div>
         </section>
+
         <footer>
 
             <p>
 
-                YouTube Video Summarizer © 2026
+                YouTube Video Analyzer © 2026
 
             </p>
 
         </footer>
+
     </div>
+
     <script src="js/script.js"></script>
+
 </body>
 
 </html>

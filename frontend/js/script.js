@@ -34,10 +34,94 @@ document.getElementById("spamPercent");
 const summaryBox =
 document.getElementById("summaryBox");
 
+
+// =====================================
+// SENTIMENT CHART
+// =====================================
+
+const sentimentChart =
+new Chart(
+
+    document.getElementById(
+        "sentimentChart"
+    ),
+
+    {
+
+        type: "pie",
+
+        data: {
+
+            labels: [
+                "Positive",
+                "Neutral",
+                "Negative"
+            ],
+
+            datasets: [{
+
+                data: [0,0,0],
+
+                backgroundColor: [
+                    "#00ff66",
+                    "#ffaa00",
+                    "#ff0000"
+                ]
+            }]
+        }
+    }
+);
+
+
+// =====================================
+// SPAM CHART
+// =====================================
+
+const spamChart =
+new Chart(
+
+    document.getElementById(
+        "spamChart"
+    ),
+
+    {
+
+        type: "doughnut",
+
+        data: {
+
+            labels: [
+                "Valid",
+                "Spam"
+            ],
+
+            datasets: [{
+
+                data: [0,0],
+
+                backgroundColor: [
+                    "#ff0000",
+                    "#555555"
+                ]
+            }]
+        }
+    }
+);
+
+
+// =====================================
+// BUTTON CLICK
+// =====================================
+
 analyzeBtn.addEventListener(
     "click",
     analyzeVideo
 );
+
+
+// =====================================
+// ANALYZE FUNCTION
+// =====================================
 
 async function analyzeVideo(){
 
@@ -45,32 +129,46 @@ async function analyzeVideo(){
 
     if(url === ""){
 
-        alert("Please enter YouTube URL");
+        alert(
+            "Please enter YouTube URL"
+        );
 
         return;
     }
 
     try{
 
-        const response = await fetch(
+        const response =
+        await fetch(
+
             "http://127.0.0.1:8000/analyze",
+
             {
+
                 method: "POST",
 
-                headers:{
+                headers: {
+
                     "Content-Type":
                     "application/json"
                 },
 
                 body: JSON.stringify({
+
                     url: url
                 })
             }
         );
 
-        const data = await response.json();
+        const data =
+        await response.json();
 
         console.log(data);
+
+
+        // =====================================
+        // UPDATE TEXT
+        // =====================================
 
         totalComments.innerText =
         data.total_comments;
@@ -99,19 +197,42 @@ async function analyzeVideo(){
         spamPercent.innerText =
         data.spam_rate + "%";
 
-        summaryBox.innerText =
-        data.summary;
+
+        // =====================================
+        // SUMMARY
+        // =====================================
+
+        if(summaryBox){
+
+            summaryBox.innerText =
+            data.summary;
+        }
+
+
+        // =====================================
+        // UPDATE SENTIMENT CHART
+        // =====================================
 
         sentimentChart.data.datasets[0].data = [
+
             data.good_comments,
+
             data.neutral_comments,
+
             data.bad_comments
         ];
 
         sentimentChart.update();
 
+
+        // =====================================
+        // UPDATE SPAM CHART
+        // =====================================
+
         spamChart.data.datasets[0].data = [
+
             data.valid_comments,
+
             data.spam_comments
         ];
 
@@ -123,93 +244,22 @@ async function analyzeVideo(){
 
         console.log(error);
 
-        alert("Error connecting to backend");
+        alert(
+            "Backend connection failed"
+        );
     }
 }
+// =====================================
+// TREND CHART
+// =====================================
 
-const sentimentCtx =
-document.getElementById(
-    "sentimentChart"
-);
-
-const sentimentChart = new Chart(
-    sentimentCtx,
-    {
-
-        type: "pie",
-
-        data: {
-
-            labels: [
-                "Good",
-                "Neutral",
-                "Bad"
-            ],
-
-            datasets: [{
-
-                data: [0,0,0],
-
-                backgroundColor: [
-                    "#4CAF50",
-                    "#FFA500",
-                    "#FF4C4C"
-                ]
-
-            }]
-        },
-
-        options: {
-
-            responsive: true
-        }
-    }
-);
-
-const spamCtx =
-document.getElementById(
-    "spamChart"
-);
-
-const spamChart = new Chart(
-    spamCtx,
-    {
-
-        type: "doughnut",
-
-        data: {
-
-            labels: [
-                "Valid",
-                "Spam"
-            ],
-
-            datasets: [{
-
-                data: [0,0],
-
-                backgroundColor: [
-                    "#36A2EB",
-                    "#C0C0C0"
-                ]
-
-            }]
-        },
-
-        options: {
-
-            responsive: true
-        }
-    }
-);
-
-const trendCtx =
-document.getElementById(
-    "trendChart"
-);
-
+const trendChart =
 new Chart(
-    trendCtx,
+
+    document.getElementById(
+        "trendChart"
+    ),
+
     {
 
         type: "line",
@@ -236,26 +286,28 @@ new Chart(
                     19000
                 ],
 
-                borderColor: "#4CAF50",
+                borderColor: "#ff0000",
+
+                backgroundColor: "rgba(255,0,0,0.2)",
 
                 tension: 0.4
             }]
-        },
-
-        options: {
-
-            responsive: true
         }
     }
 );
 
-const yearCtx =
-document.getElementById(
-    "yearChart"
-);
 
+// =====================================
+// YEAR CHART
+// =====================================
+
+const yearChart =
 new Chart(
-    yearCtx,
+
+    document.getElementById(
+        "yearChart"
+    ),
+
     {
 
         type: "bar",
@@ -277,16 +329,10 @@ new Chart(
                 ],
 
                 backgroundColor: [
-                    "#2196F3",
-                    "#2196F3"
+                    "#ff0000",
+                    "#990000"
                 ]
-
             }]
-        },
-
-        options: {
-
-            responsive: true
         }
     }
 );
