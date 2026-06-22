@@ -12,7 +12,7 @@ youtube = build(
     developerKey=API_KEY
 )
 
-def fetch_comments(video_id, max_comments=100):
+def fetch_comments(video_id, max_comments=1000):
 
     comments = []
 

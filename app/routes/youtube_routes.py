@@ -21,11 +21,6 @@ vectorizer = joblib.load(
     "app/models/tfidf_vectorizer.pkl"
 )
 
-
-# =========================================
-# FETCH COMMENTS ROUTE
-# =========================================
-
 @router.get("/fetch-comments")
 def fetch_youtube_comments(url: str):
 
@@ -67,14 +62,10 @@ def fetch_youtube_comments(url: str):
 
     except Exception as e:
 
-        return {
-            "error": str(e)
-        }
+        print("FETCH ERROR:", e)
 
+        raise e
 
-# =========================================
-# ANALYZE ROUTE
-# =========================================
 
 @router.post("/analyze")
 def analyze(data: dict):
@@ -99,25 +90,47 @@ def analyze(data: dict):
                 "error": "No comments found"
             }
 
-
-        # =========================================
-        # COMMENT TEXT EXTRACTION
-        # =========================================
-
         comment_texts = []
 
         for comment in comments:
 
-            if "comment" in comment:
+            if (
+                "comment" in comment
+                and comment["comment"]
+                and isinstance(
+                    comment["comment"],
+                    str
+                )
+            ):
 
-                comment_texts.append(
-                    comment["comment"]
+                cleaned_comment = (
+                    comment["comment"].strip()
                 )
 
+                if cleaned_comment != "":
 
-        # =========================================
-        # SPAM PREDICTION
-        # =========================================
+                    comment_texts.append(
+                        cleaned_comment
+                    )
+
+        if len(comment_texts) == 0:
+
+            return {
+                "error":
+                "No valid comments found"
+            }
+
+        df_comments = pd.DataFrame({
+
+            "comment": comment_texts
+        })
+
+        df_comments.to_csv(
+
+            "data/raw/comments.csv",
+
+            index=False
+        )
 
         X = vectorizer.transform(
             comment_texts
@@ -131,11 +144,6 @@ def analyze(data: dict):
 
             "prediction": predictions
         })
-
-
-        # =========================================
-        # COUNTS
-        # =========================================
 
         spam_count = int(
             sum(predictions)
@@ -161,23 +169,11 @@ def analyze(data: dict):
             2
         )
 
-
-        # =========================================
-        # IMPORTANT CHANGE
-        # =========================================
-        # USING ALL COMMENTS FOR SENTIMENT
-        # =========================================
-
         sentiment_df = df.copy()
 
         sentiment_df["sentiment"] = sentiment_df[
             "comment"
         ].apply(analyze_sentiment)
-
-
-        # =========================================
-        # SENTIMENT COUNTS
-        # =========================================
 
         positive_count = len(
 
@@ -199,37 +195,6 @@ def analyze(data: dict):
                 sentiment_df["sentiment"] == "Neutral"
             ]
         )
-
-
-        # =========================================
-        # SUMMARY
-        # =========================================
-
-        summary = f"""
-
-        Total comments analyzed:
-        {total_comments}
-
-        Genuine comments:
-        {genuine_count}
-
-        Spam comments:
-        {spam_count}
-
-        Positive audience reaction:
-        {positive_count}
-
-        Negative audience reaction:
-        {negative_count}
-
-        Neutral audience reaction:
-        {neutral_count}
-        """
-
-
-        # =========================================
-        # RESPONSE
-        # =========================================
 
         return {
 
@@ -257,9 +222,6 @@ def analyze(data: dict):
             "neutral_comments":
             neutral_count,
 
-            "summary":
-            summary,
-
             "comments":
             sentiment_df.to_dict(
                 orient="records"
@@ -268,14 +230,10 @@ def analyze(data: dict):
 
     except Exception as e:
 
-        return {
-            "error": str(e)
-        }
+        print("ANALYZE ERROR:", e)
 
+        raise e
 
-# =========================================
-# TEST ROUTE
-# =========================================
 
 @router.get("/test")
 def test_route():
