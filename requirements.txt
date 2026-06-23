@@ -26,4 +26,6 @@ scikit-learn
 joblib
 nltk
 google-api-python-client
+google-generativeai
 vaderSentiment
+emoji

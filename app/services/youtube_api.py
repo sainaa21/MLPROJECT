@@ -1,9 +1,11 @@
+import logging
 import os
 from dotenv import load_dotenv
 from googleapiclient.discovery import build
 
 load_dotenv()
 
+logger = logging.getLogger(__name__)
 API_KEY = os.getenv("YOUTUBE_API_KEY")
 
 youtube = build(
@@ -13,6 +15,7 @@ youtube = build(
 )
 
 def fetch_comments(video_id, max_comments=1000):
+    logger.info("Fetching comments for video_id=%s", video_id)
 
     comments = []
 
@@ -52,9 +55,12 @@ def fetch_comments(video_id, max_comments=1000):
         else:
             break
 
+    logger.info("Fetched %s comments for video_id=%s", len(comments), video_id)
     return comments
 
+
 def get_video_details(video_id):
+    logger.info("Fetching video details for video_id=%s", video_id)
 
     request = youtube.videos().list(
         part="snippet,statistics",
